@@ -1,0 +1,132 @@
+
+
+version: '3.0'
+
+services:
+
+
+#  user-service:
+#    image: user-service # from build in Dockerfile created in terminal; :1.0 is version specified
+#    ports:
+#      - "8084:8084"
+#    build: #
+#      context: ./user-service
+#      dockerfile: ./Dockerfile
+#      # if the code has changed, recreate the image before building the container
+#    container_name: user-service
+#    restart: on-failure
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#    links:
+#      - mongodb
+#    depends_on:
+#      - mongodb
+#    networks:
+#      - spring
+#
+#  post-service:
+#      image: post-service
+#      ports:
+#        - "8083:8083"
+#      build: #
+#        context: ./post-service
+#        dockerfile: ./Dockerfile
+#      container_name: post-service
+#      restart: on-failure
+#      environment:
+#        SPRING_PROFILES_ACTIVE: docker
+#      links:
+#        - mongodb
+#      depends_on:
+#        - mongodb
+#      networks:
+#        - spring
+#
+#  comment-service:
+#      image: comment-service
+#      ports:
+#        - "8085:8085"
+#      build: #
+#        context: ./comment-service
+#        dockerfile: ./Dockerfile
+#      container_name: comment-service
+#      restart: on-failure
+#      environment:
+#        SPRING_PROFILES_ACTIVE: docker
+#      links:
+#        - mongodb
+#      depends_on:
+#        - mongodb
+#      networks:
+#        - spring
+
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./data/mongo/users:/data/db
+      - ./init/mongo/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+    container_name: mongodb
+    command: mongod --auth # d stands for daemon
+    networks:
+      - spring
+
+networks: # declare all your networks
+  spring:
+    driver: bridge
+#----------------------------------------------------------------------
+#  mongodb:
+#    image: mongo:latest
+#    restart: unless-stopped
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: admin
+#      MONGO_INITDB_ROOT_PASSWORD: password
+#    volumes:
+#      - ./data/mongo/users:/data/db
+#      - ./init/mongo/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+#    container_name: mongodb
+#    command: mongod --auth # d stands for daemon
+#    networks:
+#      - spring
+
+
+
+
+#
+#  mongodb:
+#    image: mongo:latest
+#    restart: unless-stopped
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: admin
+#      MONGO_INITDB_ROOT_PASSWORD: password
+#    volumes:
+#      - ./data/mongo/users:/data/db
+#      - ./init/mongo/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+#    container_name: mongodb
+#    command: mongod --auth # d stands for daemon
+#    networks:
+#      - spring
+
+#  postgres:
+#    image: postgres:latest
+#    container_name: Postgres-Container
+#    volumes:
+#      - ./data/postgresql/data:/var/lib/postgresql/data
+#    ports:
+#      - 8082:5431
+#    restart: always
+#    environment:
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: password
+#    networks:
+#      - spring
