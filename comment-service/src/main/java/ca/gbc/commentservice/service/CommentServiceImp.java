@@ -6,13 +6,12 @@ import ca.gbc.commentservice.model.Comment;
 import ca.gbc.commentservice.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class CommentServiceImp implements CommentService{
     @Override
     public List<CommentResponse> getAllComments() {
 
-        List<Comment> allComments = commentRepository.findAll();
+        List<Comment> allComments = commentRepository.findAllComments();
 
         return allComments.stream().map(this::mapToCommentResponse).toList();
 
@@ -51,21 +50,36 @@ public class CommentServiceImp implements CommentService{
                 .build();
     }
     @Override
-    public void deleteComment(String id) {
+    public void deleteComment(Long id) {
         commentRepository.deleteById(id);
     }
 
     @Override
-    public String updateComment(String id, CommentRequest commentRequest) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(id));
-        Comment comment = mongoTemplate.findOne(query, Comment.class);
-
-        if(comment != null){
+    public Long updateComment(Long id, CommentRequest commentRequest) {
+//        Optional<User> possibleUser = userRepository.findById(id);
+//        if(possibleUser.isPresent()){
+//            User user = possibleUser.get();
+//            user.setFullName(userRequest.getFullName());
+//            user.setUsername(userRequest.getUsername());
+//            user.setPassword(userRequest.getPassword());
+//            user.setEmail(userRequest.getEmail());
+//            user.setBio(userRequest.getBio());
+//            return userRepository.save(user).getId();
+//        } else {
+//
+//            throw new RuntimeException("User not found with ID: " + id);
+//        }
+        Optional<Comment> possibleComment = commentRepository.findById(id);
+        if(possibleComment.isPresent()){
+            Comment comment = possibleComment.get();
             comment.setText(commentRequest.getText());
+
             return commentRepository.save(comment).getId();
+        }else {
+
+            throw new RuntimeException("Comment not found with ID: " + id);
         }
 
-        return id.toString();
+
     }
 }

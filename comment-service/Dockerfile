@@ -24,7 +24,7 @@ ENV MONGO_DB_USERNAME=admin \
     MONGO_DB_PWD=password
 
 
-EXPOSE 8080
+EXPOSE 8081
 
 
 ENTRYPOINT ["java", "-jar", "/app/comment-service.jar"]

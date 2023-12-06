@@ -2,7 +2,7 @@ package ca.gbc.postservice.service;
 
 import ca.gbc.postservice.dto.PostRequest;
 import ca.gbc.postservice.dto.PostResponse;
-import ca.gbc.postservice.dto.UserResponse;
+import ca.gbc.postservice.dto.UserRes;
 import ca.gbc.postservice.model.Post;
 import ca.gbc.postservice.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
-@RequiredArgsConstructor // injects ____ into constructor
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class PostServiceImpl implements PostService{
@@ -35,9 +34,9 @@ public class PostServiceImpl implements PostService{
         client.get()
                 .uri(userApiUriWithId)
                 .retrieve()
-                .bodyToMono(UserResponse.class)
-                .doOnSuccess(userResponse -> {
-                    if (userResponse != null) {
+                .bodyToMono(UserRes.class)
+                .doOnSuccess(userRes -> {
+                    if (userRes != null) {
                         Post post = Post.builder()
                                 .userId(postRequest.getUserId())
                                 .caption(postRequest.getCaption())

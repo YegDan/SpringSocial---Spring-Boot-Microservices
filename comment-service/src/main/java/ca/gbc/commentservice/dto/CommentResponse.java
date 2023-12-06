@@ -13,9 +13,9 @@
     @NoArgsConstructor
     public class CommentResponse {
 
-        private String id;
+        private Long id;
         private String postId;
-        private String userId;
+        private Long userId;
         private String text;
     //    private String username;
         private LocalDateTime createdTime;
