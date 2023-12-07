@@ -19,6 +19,7 @@ public class Post {
     private String id;
     private Long userId;
     private String caption;
+    private List<Long> commentids;
 //    private int likes;
 //    private List<String> commentId;
 }

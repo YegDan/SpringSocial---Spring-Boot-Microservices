@@ -15,4 +15,5 @@ public class PostResponse {
     private String id;
     private Long userId;
     private String caption;
+    private List<Long> commnetids;
 }
