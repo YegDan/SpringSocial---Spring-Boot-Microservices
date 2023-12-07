@@ -1,11 +1,10 @@
 package ca.gbc.userservice.service;
 
-import ca.gbc.userservice.dto.ToPostResponse;
+import ca.gbc.userservice.dto.UserRes;
 import ca.gbc.userservice.dto.UserRequest;
 import ca.gbc.userservice.dto.UserResponse;
 import ca.gbc.userservice.model.User;
 import ca.gbc.userservice.repository.UserRepository;
-import ca.gbc.userservice.service.UserService;
 
 
 import lombok.RequiredArgsConstructor;
@@ -94,9 +93,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Optional<ToPostResponse> userExists(Long id) {
+    public Optional<UserRes> userExists(Long id) {
         return userRepository.findById(id)
-                .map(user -> new ToPostResponse(user.getId(), user.getUsername()));
+                .map(user -> new UserRes(user.getId(), user.getUsername()));
     }
 
     public UserResponse mapTpUserResponse(User user){

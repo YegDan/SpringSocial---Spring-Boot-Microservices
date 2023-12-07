@@ -31,9 +31,9 @@ public class CommentController {
     }
     @PutMapping({"{commentId}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateComment(@PathVariable("commentId") String id
+    public void updateComment(@PathVariable("commentId") Long id
             ,@RequestBody CommentRequest commentRequest){
-        String updatedCommentId = commentServiceImp.updateComment(id, commentRequest);
+        Long updatedCommentId = commentServiceImp.updateComment(id, commentRequest);
         HttpHeaders header = new HttpHeaders();
         header.add("Location", "/api/comments/" + updatedCommentId);
 
@@ -41,7 +41,7 @@ public class CommentController {
 
     @DeleteMapping({"{commentId}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@PathVariable("commentId") String id){
+    public void deleteComment(@PathVariable("commentId") Long id){
         commentServiceImp.deleteComment(id);
     }
 

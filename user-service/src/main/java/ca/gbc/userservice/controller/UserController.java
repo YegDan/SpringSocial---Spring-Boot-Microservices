@@ -1,6 +1,6 @@
 package ca.gbc.userservice.controller;
 
-import ca.gbc.userservice.dto.ToPostResponse;
+import ca.gbc.userservice.dto.UserRes;
 import ca.gbc.userservice.dto.UserRequest;
 import ca.gbc.userservice.dto.UserResponse;
 import ca.gbc.userservice.service.UserServiceImpl;
@@ -34,7 +34,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ToPostResponse> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserRes> getUserById(@PathVariable Long id) {
         return userService.userExists(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

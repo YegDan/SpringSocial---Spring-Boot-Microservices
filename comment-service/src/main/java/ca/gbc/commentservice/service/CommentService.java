@@ -9,6 +9,6 @@ public interface CommentService {
 
     void createComment(CommentRequest commentRequest);
     List<CommentResponse> getAllComments();
-    void deleteComment(String id);
-    String updateComment(String id, CommentRequest commentRequest);
+    void deleteComment(Long id);
+    Long updateComment(Long id, CommentRequest commentRequest);
 }
