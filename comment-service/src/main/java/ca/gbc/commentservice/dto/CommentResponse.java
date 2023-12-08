@@ -16,6 +16,7 @@
         private Long id;
         private String postId;
         private Long userId;
+        private String username;
         private String text;
     //    private String username;
         private LocalDateTime createdTime;

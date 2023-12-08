@@ -86,13 +86,11 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAllUsers();
 
 
-
-
         return users.stream().map(this::mapTpUserResponse).toList();
     }
 
     @Override
-    @Transactional
+
     public Optional<UserRes> userExists(Long id) {
         return userRepository.findById(id)
                 .map(user -> new UserRes(user.getId(), user.getUsername()));
