@@ -1,17 +1,16 @@
-package ca.gbc.userservice.dto;
+package ca.gbc.commentservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRes {
-
-    private Long userId;
-    private String username;
+@Builder
+public class CommentRes {
+    private Long commentId;
+    private String caption;
 
 }
