@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostResponse {
+public class SpecificPostResponse {
+
     private String id;
     private Long userId;
-    private String username;
     private String caption;
-//    private List<Long> commnetids;
+    private List<CommentRes> comments;
 }
