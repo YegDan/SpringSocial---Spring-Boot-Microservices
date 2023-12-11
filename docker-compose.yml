@@ -5,6 +5,35 @@ version: '3.0'
 services:
 
 
+  discovery-service:
+    container_name: discovery-service
+    image: discovery-service
+    ports:
+      - "8761:8761"
+    build:
+      context: ./discovery-service
+      dockerfile: ./Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - spring
+
+  api-gateway:
+    image: api-gateway
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    build:
+      context: ./api-gateway
+      dockerfile: ./Dockerfile
+    container_name: api-gateway
+    depends_on:
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - spring
+
   user-service:
     image: user-service # from build in Dockerfile created in terminal; :1.0 is version specified
     ports:
@@ -42,7 +71,7 @@ services:
   comment-service:
     image: comment-service # from build in Dockerfile created in terminal; :1.0 is version specified
     ports:
-      - "8081:8081" # 8082 internal: 8082 external
+      - "8087:8087" # 8082 internal: 8082 external
     build: #
       context: ./comment-service
       dockerfile: ./Dockerfile
