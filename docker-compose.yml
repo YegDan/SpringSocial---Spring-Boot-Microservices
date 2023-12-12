@@ -55,6 +55,23 @@ services:
     networks:
       - spring
 
+  friendship-service:
+    image: friendship-service
+    ports:
+      - "8085:8085"
+    build:
+      context: ./friendship-service
+      dockerfile: ./Dockerfile
+    container_name: friendship-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    restart: unless-stopped
+    depends_on:
+      - discovery-service
+      - postgres-friendship
+    networks:
+      - spring
+
   postgres-comment:
     image: postgres
     restart: unless-stopped
@@ -82,6 +99,21 @@ services:
       - ./data/postgres/user-service:/var/lib/postgresql/data
       - ./init/postgres/user-service/init.sql:/docker-entrypoint-initdb.d/init.sql
     container_name: postgres-user
+    networks:
+      - spring
+
+  postgres-friendship:
+    image: postgres
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./data/postgres/friendship:/data/postgres
+      - ./init/postgres/friendship/init.sql:/docker-entrypoint-initdb.d/init.sql
+    container_name: postgres-friendship
+    restart: unless-stopped
     networks:
       - spring
 
