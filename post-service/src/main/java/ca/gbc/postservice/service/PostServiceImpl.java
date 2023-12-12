@@ -29,6 +29,7 @@ public class PostServiceImpl implements PostService{
     private String userApiUri;
     @Value("${comment.service.url}")
     private String commentApiUri;
+    
 
     private final PostRepository postRepository;
     private final MongoTemplate mongoTemplate;
@@ -124,6 +125,7 @@ public class PostServiceImpl implements PostService{
         return posts.stream().map(this::mapToPostResponse).toList();
 
     }
+    
 
     private PostResponse mapToPostResponse(Post post) {
         return PostResponse.builder()
