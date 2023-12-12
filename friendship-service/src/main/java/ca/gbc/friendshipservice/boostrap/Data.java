@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DataLoader implements CommandLineRunner {
+public class Data implements CommandLineRunner {
 
     private final FriendshipRepository friendshipRepository;
 
