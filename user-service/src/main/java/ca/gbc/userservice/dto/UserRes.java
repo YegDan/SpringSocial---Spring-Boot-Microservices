@@ -13,4 +13,5 @@ public class UserRes {
 
     private Long userId;
     private String username;
+
 }

@@ -1,13 +1,16 @@
 package ca.gbc.commentservice.controller;
 
 import ca.gbc.commentservice.dto.CommentRequest;
+import ca.gbc.commentservice.dto.CommentRes;
 import ca.gbc.commentservice.dto.CommentResponse;
+import ca.gbc.commentservice.model.Comment;
 import ca.gbc.commentservice.service.CommentServiceImp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -38,6 +41,13 @@ public class CommentController {
         header.add("Location", "/api/comments/" + updatedCommentId);
 
     }
+    @GetMapping("/{postId}")
+    public List<CommentRes> getCommentsForPost(@PathVariable String postId) {
+        return commentServiceImp.getCommentsByPostId(postId);
+    }
+
+
+
 
     @DeleteMapping({"{commentId}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -18,6 +18,7 @@ public class Post {
     @Id
     private String id;
     private Long userId;
+    private String username;
     private String caption;
     private List<Long> commentids;
 //    private int likes;

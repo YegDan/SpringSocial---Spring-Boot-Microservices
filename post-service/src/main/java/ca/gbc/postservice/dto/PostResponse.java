@@ -14,6 +14,7 @@ import java.util.List;
 public class PostResponse {
     private String id;
     private Long userId;
+    private String username;
     private String caption;
-    private List<Long> commnetids;
+//    private List<Long> commnetids;
 }
