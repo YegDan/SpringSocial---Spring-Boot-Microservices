@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.1.5"
+    id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
 }
 
@@ -22,6 +22,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.3")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.0.8")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.1.4")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.4")
+
+
 //    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.1.5")
 //    implementation("org.springframework.boot:spring-boot-starter-security:3.1.5")
 //    implementation("io.micrometer:micrometer-observation:1.11.3")

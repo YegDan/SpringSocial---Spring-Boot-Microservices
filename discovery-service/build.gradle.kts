@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.1.3"
+    id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
 }
 
@@ -24,6 +24,7 @@ dependencies {
 //    implementation("io.micrometer:micrometer-tracing-bridge-brave:1.1.4")
 //    implementation("io.zipkin.reporter2:zipkin-reporter-brave:2.16.4")
     implementation("org.springframework.boot:spring-boot-actuator:3.1.5")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.4")
 
 }
 
