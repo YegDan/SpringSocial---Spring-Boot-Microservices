@@ -1,25 +1,24 @@
 package ca.gbc.friendshipservice.controller;
 
-import ca.gbc.friendshipservice.dto.FriendshipRequest;
 import ca.gbc.friendshipservice.dto.FriendshipResponse;
-import ca.gbc.friendshipservice.service.FriendshipService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ca.gbc.friendshipservice.service.FriendshipServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/friendship")
+@RequiredArgsConstructor
 public class FriendshipController {
 
-    @Autowired
-    private FriendshipService friendshipService;
+    private final FriendshipServiceImpl friendshipService;
 
-    @PostMapping("/sendRequest")
-    public void sendFriendRequest(@RequestBody FriendshipRequest friendRequest) {
-        friendshipService.sendFriendRequest(friendRequest);
+    @GetMapping("/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<FriendshipResponse> getFriendshipStatusList(@PathVariable("username") String username){
+        return friendshipService.getFriendshipStatusList(username);
     }
 
-    @GetMapping("/getFriends/{userId}")
-    public FriendshipResponse getFriends(@PathVariable Long userId) {
-        return friendshipService.getFriends(userId);
-    }
 }

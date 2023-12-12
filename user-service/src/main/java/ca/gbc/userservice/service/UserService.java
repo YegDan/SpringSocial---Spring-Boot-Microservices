@@ -19,4 +19,5 @@ public interface UserService {
     Optional<UserRes> userExists(Long id);
 
 
+    String getUserProfile(String username);
 }

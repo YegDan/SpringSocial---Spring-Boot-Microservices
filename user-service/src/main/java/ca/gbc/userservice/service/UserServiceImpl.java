@@ -1,8 +1,6 @@
 package ca.gbc.userservice.service;
 
-import ca.gbc.userservice.dto.UserRes;
-import ca.gbc.userservice.dto.UserRequest;
-import ca.gbc.userservice.dto.UserResponse;
+import ca.gbc.userservice.dto.*;
 import ca.gbc.userservice.model.User;
 import ca.gbc.userservice.repository.UserRepository;
 
@@ -10,8 +8,10 @@ import ca.gbc.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository ;
 
+    private final WebClient.Builder webClientBuilder;
+    @Value("${friendship.service.url}")
+    private String friendshipApiUri;
 
     @Override
     @Transactional
@@ -103,6 +106,34 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .bio(user.getBio())
                 .build();
+    }
+
+    @Override
+    public String getUserProfile(String username){
+
+        User user = userRepository.findByUsername(username);
+
+        FriendshipRequest friendshipRequest = FriendshipRequest.builder()
+                .username(Long.valueOf(username))
+                .build();
+
+        List<FriendshipResponse> friendshipResponseList = webClientBuilder.build()
+                .get()
+                .uri(friendshipApiUri + "/{username}", username)
+                .retrieve()
+                .bodyToFlux(FriendshipResponse.class)
+                .collectList()
+                .block();
+
+        assert friendshipResponseList != null;
+
+        String result = "User Id: " + user.getId() + "\n" +
+                "User Name: " + user.getUsername() + "\n" +
+                "Email: " + user.getEmail() + "\n" +
+                "Friendship Status\n";
+
+        return result;
+
     }
 }
 //public class UserServiceImpl implements UserService {

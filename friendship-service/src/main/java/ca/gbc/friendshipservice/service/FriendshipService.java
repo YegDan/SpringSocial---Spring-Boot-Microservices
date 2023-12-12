@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface FriendshipService {
 
-    void sendFriendRequest(FriendshipRequest friendRequest);
+    List<FriendshipResponse> getFriendshipStatusList(String username);
 
-    FriendshipResponse getFriends(Long userId);
 }

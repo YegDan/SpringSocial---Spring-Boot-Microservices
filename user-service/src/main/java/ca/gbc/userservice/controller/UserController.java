@@ -54,4 +54,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public String getUserProfile(@PathVariable("username") String userName){
+        return userService.getUserProfile(userName);
+    }
+
+
 }
