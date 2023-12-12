@@ -21,6 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave:2.16.4")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation(project(mapOf("path" to ":")))
     compileOnly("org.projectlombok:lombok")
     implementation(platform("org.testcontainers:testcontainers-bom:1.18.3"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:3.1.5")

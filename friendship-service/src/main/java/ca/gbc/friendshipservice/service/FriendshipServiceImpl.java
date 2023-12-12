@@ -45,7 +45,6 @@
 //    }
 package ca.gbc.friendshipservice.service;
 
-import ca.gbc.friendshipservice.dto.FriendshipRes;
 import ca.gbc.friendshipservice.dto.FriendshipRequest;
 import ca.gbc.friendshipservice.dto.FriendshipResponse;
 import ca.gbc.friendshipservice.model.Friendship;
@@ -55,10 +54,13 @@ import ca.gbc.friendshipservice.repository.FriendshipRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.http.conn.ConnectionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,12 +74,24 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Autowired
     private WebClient webClient;
+    @Value("${user.service.url}")
+    private String userApiUri;
 
     @Override
     public void sendFriendRequest(FriendshipRequest friendRequest) {
-        // Implement sending friend request logic
-        // You may want to validate the request, check if users exist, etc.
+
+        // Check if the users exist and get additional details
+        FriendshipResponse user = getUserDetails(Collections.singletonList(friendRequest.getUserId()));
+        FriendshipResponse friend = getUserDetails(Collections.singletonList(friendRequest.getFriendId()));
+
+        // Create a friendship record
+        Friendship friendship = new Friendship();
+        friendship.setUserId(user.getFriendIds().get(0));
+        friendship.setFriendId(friend.getFriendIds().get(0));
+
+        friendshipRepository.save(friendship);
     }
+
 
     @Override
     public FriendshipResponse getFriends(Long userId) {
