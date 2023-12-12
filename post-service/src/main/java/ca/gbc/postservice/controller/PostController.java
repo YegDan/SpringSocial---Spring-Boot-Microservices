@@ -2,7 +2,11 @@ package ca.gbc.postservice.controller;
 
 import ca.gbc.postservice.dto.*;
 import ca.gbc.postservice.service.PostServiceImpl;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +17,12 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/post")
 public class PostController {
 
@@ -24,8 +30,18 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPost(@RequestBody PostRequest postRequest) {
+    @CircuitBreaker(name="user", fallbackMethod = "createPostFallback")
+    @TimeLimiter(name="user")
+    @Retry(name="user")
+    public CompletableFuture<String> createPost(@RequestBody PostRequest postRequest) {
+
         postService.createPost(postRequest);
+        return CompletableFuture.supplyAsync(() -> postService.createPost(postRequest));
+    }
+
+    public CompletableFuture<String> createPostFallback(PostRequest postRequest, RuntimeException e){
+        log.error("Exception is: {}", e.getMessage());
+        return CompletableFuture.completedFuture("FALLBACK INVOKED: failed to creat post. Please try again later.");
     }
 
     @GetMapping

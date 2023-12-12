@@ -34,6 +34,15 @@ services:
     networks:
       - spring
 
+  zipkin:
+    image: openzipkin/zipkin:latest
+    restart: unless-stopped
+    ports:
+      - "9411:9411"
+    container_name: zipkin
+    networks:
+      - spring
+
   keycloak:
     image: jboss/keycloak
     restart: on-failure
