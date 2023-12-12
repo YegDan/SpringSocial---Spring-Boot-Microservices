@@ -5,6 +5,82 @@ version: '3.0'
 services:
 
 
+  discovery-service:
+    container_name: discovery-service
+    image: discovery-service
+    ports:
+      - "8761:8761"
+    build:
+      context: ./discovery-service
+      dockerfile: ./Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - spring
+
+  api-gateway:
+    image: api-gateway
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    build:
+      context: ./api-gateway
+      dockerfile: ./Dockerfile
+    container_name: api-gateway
+    depends_on:
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - spring
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    restart: unless-stopped
+    ports:
+      - "9411:9411"
+    container_name: zipkin
+    networks:
+      - spring
+
+  keycloak:
+    image: jboss/keycloak
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    container_name: keycloak
+    depends_on:
+      - postgres-keycloak
+    environment:
+      JBOSS_LOG_MANAGER_ROOT_LOGGER: DEBUG
+      DB_VENDOR: postgres
+      DB_ADDR: postgres-keycloak
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realms/spring-social2-realm.json
+    volumes:
+      - ./realms/:/opt/jboss/keycloak/realms
+    networks:
+      - spring
+
+  postgres-keycloak:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5431:5432"
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+    volumes:
+      - ./data/postgres/postgres-keycloak:/data/postgres
+    container_name: postgres-keycloak
+    networks:
+      - spring
+
   user-service:
     image: user-service # from build in Dockerfile created in terminal; :1.0 is version specified
     ports:
@@ -42,7 +118,7 @@ services:
   comment-service:
     image: comment-service # from build in Dockerfile created in terminal; :1.0 is version specified
     ports:
-      - "8081:8081" # 8082 internal: 8082 external
+      - "8087:8087" # 8082 internal: 8082 external
     build: #
       context: ./comment-service
       dockerfile: ./Dockerfile

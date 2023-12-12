@@ -29,34 +29,58 @@ public class PostServiceImpl implements PostService{
     private String userApiUri;
     @Value("${comment.service.url}")
     private String commentApiUri;
+    
 
     private final PostRepository postRepository;
     private final MongoTemplate mongoTemplate;
     @Override
-    public void createPost(PostRequest postRequest) {
+    public String createPost(PostRequest postRequest){
 
         String userApiUriWithId = userApiUri + "/" + postRequest.getUserId();
 
-        client.get()
+        UserRes userRes = client.get()
                 .uri(userApiUriWithId)
                 .retrieve()
                 .bodyToMono(UserRes.class)
-                .doOnSuccess(userRes -> {
-                    if (userRes != null) {
-                        Post post = Post.builder()
-                                .userId(userRes.getUserId())
-                                .caption(postRequest.getCaption())
-                                .username(userRes.getUsername())
-                                .build();
-                        postRepository.save(post);
-                        log.info("Post {} is saved", post.getId());
-                    }
-                })
-                .doOnError(error -> {
-                    log.error("Error calling User service", error);
+                .block();
 
-                })
-                .blockOptional();
+        if (userRes != null) {
+            Post post = Post.builder()
+                    .userId(userRes.getUserId())
+                    .caption(postRequest.getCaption())
+                    .username(userRes.getUsername())
+                    .build();
+            postRepository.save(post);
+            log.info("Post {} is saved", post.getId());
+            return "Success: Post created successfully";
+        } else {
+            throw new RuntimeException("User not found");
+        }
+
+
+//        client.get()
+//                .uri(userApiUriWithId)
+//                .retrieve()
+//                .bodyToMono(UserRes.class)
+//                .doOnSuccess(userRes -> {
+//                    if (userRes != null) {
+//                        Post post = Post.builder()
+//                                .userId(userRes.getUserId())
+//                                .caption(postRequest.getCaption())
+//                                .username(userRes.getUsername())
+//                                .build();
+//                        postRepository.save(post);
+//                        log.info("Post {} is saved", post.getId());
+//
+//                    }
+//                })
+//                .doOnError(error -> {
+//                    log.error("Error calling User service", error);
+//
+//
+//                })
+//                .blockOptional();
+
         }
 
     public Optional<PostRes> postExists(String id) {
@@ -124,6 +148,7 @@ public class PostServiceImpl implements PostService{
         return posts.stream().map(this::mapToPostResponse).toList();
 
     }
+    
 
     private PostResponse mapToPostResponse(Post post) {
         return PostResponse.builder()

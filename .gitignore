@@ -1,5 +1,52 @@
-**/data/
+# General
+.gradle/
+build/
+out/
+!**/src/main/**/build/
+!**/src/test/**/build/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+!**/src/main/**/out/
+!**/src/main/**/out/
 
-/git .idea/
+# Gradle Wrapper (these should be tracked by Git)
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 
+# IntelliJ IDEA
+.idea/
 *.iws
+*.iml
+*.ipr
+
+# Spring Tool Suite
+.springBeans
+.sts-cache
+.spt_generated
+
+# Eclipse
+.classpath
+.project
+.settings
+.factorypath
+
+# NetBeans
+/nbproject/private/
+nbbuild/
+nbdist/
+dist/
+.nb-gradle/
+
+# VS Code
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Others
+HELP.md
+bin/
+*.jar
+
+# Exclude data directory if it's not meant to be version-controlled
+data/
