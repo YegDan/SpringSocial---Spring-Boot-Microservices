@@ -1,0 +1,24 @@
+Project Summary
+This project integrates four key services: User, Comment, Post, and Friendship, each playing
+a pivotal role in a cohesive microservices architecture. A central aspect of the system design
+is the verification of parent entities before the creation of any related instances, ensuring
+data integrity across services.
+
+User Service: Central to user management, it validates user existence for other services.
+
+Post Service: Functions as an intermediary, verifying user existence before post creation
+and linking comments to posts.
+
+Comment Service: Manages comments, relying on Post Service for user information and post association.
+
+Friendship Service: Manages user relationships, its integration posed significant architectural challenges.
+
+Challenges and Learnings
+Architecture Complexity: The integration of the Friendship Service with the User Service presented
+notable architectural challenges, especially in ensuring synchronized communication and data integrity.
+
+Resilience4j Integration: Our attempts to implement resilience with Resilience4j were particularly challenging,
+and unfortunately, we could not succeed in this aspect.
+
+These challenges brought to light key learnings, most notably the critical nature of thorough planning in
+microservices architecture and the intricacies involved in integrating third-party technologies.
