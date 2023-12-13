@@ -31,7 +31,7 @@ public class FriendshipServiceImpl {
         if(!friendshipList.isEmpty()){
             for (Friendship friendship : friendshipList) {
                 FriendshipResponse friendshipResponse = FriendshipResponse.builder()
-                        .username(username)
+                        .username(Long.valueOf(username))
                         .friendName(String.valueOf(friendship.getFriendName()))
                         .status(friendship.getStatus())
                         .build();
