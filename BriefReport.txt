@@ -1,5 +1,5 @@
-COMP3095 - Assignment 1
-Group 35: Venus Daneshparvar and William Cham
+COMP3095 - Assignment 2
+Group 74: Yeganeh Daneshparvar and William Cham
 
 Brief Report
 
@@ -8,14 +8,16 @@ A) Architecture:
     Our Spring Social application is a microservices-based platform with foundational features such as creating posts,
     commenting, and managing friend requests.
 
-    To build and implement this application we used Spring Initializer, Gradle, Docker Desktop, and Postman.
-
     The key modules of this application under our SpringSocial parent directory are the following microservices:
         - user-service: manages user-related data, including user profiles.
         - post-service: manages user posts and their associated data.
         - comment-service: handles comments on posts, where users can add comments to posts.
+        - friendship-service: manages users' friends and friend requests.
+        - discovery-service: acts as a registry for all the microservices in the application.
+        - api-gateway: entry point for all client requests to the backend of the Spring Social application.
 
     Each of the microservices has its:
+        * config: either security or web config files
         * model: contains data models used in the microservice.
         * controller: handles HTTP requests and define RESTful endpoints.
         * repository: database interactions and CRUD operations.
@@ -24,13 +26,10 @@ A) Architecture:
 
 B) Challenges faced:
 
-    At first, we had issues managing our git actions to our repository. However, with a bit of management and
-    organization we managed to continue without any issues.
-
-    William had issues with the creation and running of microservice images, eventually we managed to make it work.
-
-    Later on, we were faced with another problem. In which, we tried to implement JPA relational databases to
-    user-service and comment-service using Postgres, but in the end we could not make it work.
+    Initially, William had issues with his Docker Desktop and Postman. He was working on Friendship-Service but
+    unfortunately the friendship container would not work, Yeganeh stepped in and managed to fix the friendship
+    service. Yeganeh had some issues with implementing the resilience4j for the fallback methods but in the end
+    it worked out.
 
 C) Lessons learned:
 
