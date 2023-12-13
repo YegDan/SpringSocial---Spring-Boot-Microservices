@@ -25,7 +25,7 @@ public class FriendshipServiceImpl {
     @SneakyThrows
     public List<FriendshipResponse> getFriendshipStatusList(String username) {
 
-        List<Friendship> friendshipList = friendshipRepository.findByUsername(username);
+        List<Friendship> friendshipList = friendshipRepository.findByUsername(Long.valueOf(username));
         List<FriendshipResponse> friendshipResponses = new ArrayList<>();
 
         if(!friendshipList.isEmpty()){

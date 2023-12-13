@@ -37,13 +37,16 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.postgresql:postgresql:42.6.0")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 	implementation("org.springframework.boot:spring-boot-starter-webflux:3.1.3")
 	implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.3")
+
+
+	implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:3.0.3")
 
 	implementation("io.micrometer:micrometer-observation:1.11.3")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave:1.1.4")

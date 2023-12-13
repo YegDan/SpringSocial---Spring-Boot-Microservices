@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FriendshipResponse {
 
-    private String username;
+    private Long username;
     private String friendName;
     private String status;
 

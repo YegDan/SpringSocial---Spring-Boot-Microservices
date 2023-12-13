@@ -30,9 +30,9 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CircuitBreaker(name="user", fallbackMethod = "createPostFallback")
-    @TimeLimiter(name="user")
-    @Retry(name="user")
+    @CircuitBreaker(name="postService", fallbackMethod = "createPostFallback")
+    @TimeLimiter(name="postService")
+    @Retry(name="postService")
     public CompletableFuture<String> createPost(@RequestBody PostRequest postRequest) {
 
         postService.createPost(postRequest);

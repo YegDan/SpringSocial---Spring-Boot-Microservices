@@ -15,7 +15,7 @@ public class Data implements CommandLineRunner {
     @Override
     public void run(String... args){
 
-        if(friendshipRepository.findByUsername("Venus").isEmpty()){
+        if(friendshipRepository.findByUsername(Long.valueOf("Venus")).isEmpty()){
             Friendship widgets = Friendship.builder()
                     .username(Long.valueOf("Venus"))
                     .friendName(Long.valueOf("James"))
@@ -24,7 +24,7 @@ public class Data implements CommandLineRunner {
             friendshipRepository.save(widgets);
         }
 
-        if(friendshipRepository.findByUsername("William").isEmpty()){
+        if(friendshipRepository.findByUsername(Long.valueOf("William")).isEmpty()){
             Friendship widgets = Friendship.builder()
                     .username(Long.valueOf("William"))
                     .friendName(Long.valueOf("Harold"))

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
-    List<Friendship> findByUsername(String username);
+    List<Friendship> findByUsername(Long username);
 
 }
