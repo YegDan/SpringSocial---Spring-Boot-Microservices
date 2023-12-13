@@ -1,3 +1,4 @@
+
 FROM gradle:8-jdk17-alpine AS builder
 
 
@@ -13,7 +14,6 @@ RUN gradle build -x test
 
 FROM openjdk:17-alpine
 
-
 RUN mkdir /app
 
 
@@ -24,7 +24,7 @@ ENV MONGO_DB_USERNAME=admin \
     MONGO_DB_PWD=password
 
 
-EXPOSE 8085
+EXPOSE 8081
 
 
 ENTRYPOINT ["java", "-jar", "/app/friendship-service.jar"]

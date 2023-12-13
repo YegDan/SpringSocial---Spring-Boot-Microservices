@@ -1,13 +1,9 @@
 package ca.gbc.friendshipservice.service;
 
 import ca.gbc.friendshipservice.dto.FriendshipRequest;
-import ca.gbc.friendshipservice.dto.FriendshipResponse;
-import ca.gbc.friendshipservice.model.Friendship;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 public interface FriendshipService {
 
-    List<FriendshipResponse> getFriendshipStatusList(String username);
-
+    Mono<String> sendRequest(FriendshipRequest friendshipRequest);
 }

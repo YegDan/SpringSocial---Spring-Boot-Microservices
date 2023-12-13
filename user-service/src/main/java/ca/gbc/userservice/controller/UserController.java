@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -52,6 +53,16 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Long id){
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/validate-users/{senderId}/{recipientId}")
+    public Mono<ResponseEntity<String>> validateUsers(@PathVariable Long senderId, @PathVariable Long recipientId) {
+        boolean isValid = userService.createFriendship(senderId, recipientId);
+
+        if (isValid) {
+            return Mono.just(ResponseEntity.status(HttpStatus.CREATED).body("Both users are valid"));
+        } else {
+            return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body("One or both users not found"));
+        }
     }
 
     @GetMapping("/{username}")

@@ -17,5 +17,7 @@ public class UserResponse {
     private String fullName;
     private String username;
     private String bio;
+    private List<String> followers;
+    private List<String> following;
 
 }

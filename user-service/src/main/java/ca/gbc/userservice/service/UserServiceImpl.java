@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +50,28 @@ public class UserServiceImpl implements UserService {
 
 
     }
+
+    @Transactional
+    public boolean createFriendship(Long senderId, Long recipientId) {
+        Optional<User> sender = userRepository.findById(senderId);
+        Optional<User> recipient = userRepository.findById(recipientId);
+
+        if (sender.isPresent() && recipient.isPresent()) {
+            User senderUser = sender.get();
+            User recipientUser = recipient.get();
+
+            senderUser.getFollowing().add(recipientUser);
+            recipientUser.getFollowers().add(senderUser);
+
+            userRepository.save(senderUser);
+            userRepository.save(recipientUser);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
     @Override
@@ -100,11 +123,20 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserResponse mapTpUserResponse(User user){
+        List<String> followerUsernames = user.getFollowers().stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
+        List<String> followingUsernames = user.getFollowing().stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
+
         return UserResponse.builder()
                 .id(user.getId())
                 .fullName(user.getFullName())
                 .username(user.getUsername())
                 .bio(user.getBio())
+                .followers(followerUsernames)
+                .following(followingUsernames)
                 .build();
     }
 

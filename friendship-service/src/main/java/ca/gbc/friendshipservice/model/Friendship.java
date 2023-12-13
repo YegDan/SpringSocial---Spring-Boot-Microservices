@@ -1,21 +1,24 @@
 package ca.gbc.friendshipservice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Entity
-@Table(name = "friendship")
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name= "__friendship")
 public class Friendship {
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long username;
-    private Long friendName;
-    private String status;
+    private Long recipientId;
+    private Long senderId;
+
+
 
 }
