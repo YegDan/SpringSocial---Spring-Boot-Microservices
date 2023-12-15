@@ -131,6 +131,22 @@ services:
     networks:
       - spring
 
+  friendship-service:
+    image: friendship-service # from build in Dockerfile created in terminal; :1.0 is version specified
+    ports:
+      - "8081:8081" # 8082 internal: 8082 external
+    build: #
+      context: ./friendship-service
+      dockerfile: ./Dockerfile
+      # if the code has changed, recreate the image before building the container
+    container_name: friendship-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - postgres-friendship
+    networks:
+      - spring
+
   postgres-comment:
     image: postgres
     restart: unless-stopped
@@ -143,6 +159,21 @@ services:
       - ./data/postgres/comment-service:/var/lib/postgresql/data
       - ./init/postgres/comment-service/init.sql:/docker-entrypoint-initdb.d/init.sql
     container_name: postgres-comment
+    networks:
+      - spring
+
+  postgres-friendship:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5430:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./data/postgres/friendship-service:/var/lib/postgresql/data
+      - ./init/postgres/friendship-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+    container_name: postgres-friendship
     networks:
       - spring
 

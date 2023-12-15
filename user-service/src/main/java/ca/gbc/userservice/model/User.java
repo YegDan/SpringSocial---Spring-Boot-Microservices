@@ -24,5 +24,17 @@ public class User {
     private String email;
     private String bio;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_followers", // The join table for the relationship
+            joinColumns = @JoinColumn(name = "followed_id"), // The user being followed
+            inverseJoinColumns = @JoinColumn(name = "follower_id") // The user who is following
+    )
+    private List<User> followers;
+
+    @ManyToMany(mappedBy = "followers")
+    private List<User> following;
+
+
 
 }

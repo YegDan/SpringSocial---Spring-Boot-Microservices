@@ -40,11 +40,9 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-
 	implementation("org.springframework.boot:spring-boot-starter-webflux:3.1.3")
 	implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.3")
-
 	implementation("io.micrometer:micrometer-observation:1.11.3")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave:1.1.4")
 	implementation("io.zipkin.reporter2:zipkin-reporter-brave:2.16.4")
